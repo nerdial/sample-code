@@ -2,14 +2,54 @@
 
 namespace Helpers;
 
+use Exception;
+
 class AnalyzeRoute
 {
-    public function sort(array $routes)
+    public function sort(array $tickets)
     {
-        foreach ($routes as $route){
-            
-            var_dump($route['Arrival']);
-            var_dump($route['Departure']);
+        $startPoint = $this->locateStartPoint($tickets);
+
+        
+       
+        $firstDeparture = $tickets[$startPoint];
+        unset($tickets[$startPoint]);
+
+        // Reindex the array so we don't have to iterate over starting point
+        $remainingTickets = array_values($tickets);
+        $this->sortByStartPoint($firstDeparture, $remainingTickets);
+    }
+
+    protected function sortByStartPoint(array $firstDeparture, array $otherTickets)
+    {
+
+     }
+
+    protected function locateStartPoint(array $tickets)
+    {
+        // For safety we str to lower all strings 
+        // So we can make sure everthing works smoothly
+
+        for ($i = 0; $i < count($tickets); $i++) {
+            $firstDeparture = true;
+            $departure = strtolower($tickets[$i]['Departure']);
+
+            for ($j = 0; $j < count($tickets); $j++) {
+
+                if ($i === $j) {
+                    // We don't need to compare 2 identical objects
+                    continue;
+                }
+                $arrival = strtolower($tickets[$j]['Arrival']);
+
+                if ($departure === $arrival) {
+                    $firstDeparture = false;
+                }
+            }
+            if ($firstDeparture) return $i;
         }
+            throw new Exception('There is no starting point defined in your array
+            , plase make sure at least you have one starting point');
+        
     }
 }

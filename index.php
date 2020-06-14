@@ -1,5 +1,7 @@
 <?php
 
+//require __DIR__ . '/vendor/autoload.php';
+
 include_once 'src/Helpers/AnalyzeRoute.php';
 
 $routes = [
@@ -29,7 +31,7 @@ $routes = [
     ),
     array(
         "Departure" => "Barcelona",
-        "Arrival" => "Gerona Airport",
+        "Arrival" => "Madrid",
         "Transportation" => "Bus"
     ),
 ];

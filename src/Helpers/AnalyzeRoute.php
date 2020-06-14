@@ -12,16 +12,20 @@ class AnalyzeRoute
 
         
        
-        $firstDeparture = $tickets[$startPoint];
+        $firstRoute = $tickets[$startPoint];
         unset($tickets[$startPoint]);
 
         // Reindex the array so we don't have to iterate over starting point
         $remainingTickets = array_values($tickets);
-        $this->sortByStartPoint($firstDeparture, $remainingTickets);
+        $this->sortByStartPoint($firstRoute, $remainingTickets);
     }
 
-    protected function sortByStartPoint(array $firstDeparture, array $otherTickets)
+    protected function sortByStartPoint(array $firstRoute, array $otherTickets)
     {
+        $sortedArray = [];
+        //$sortedArray = $firstRoute;
+
+        
 
      }
 

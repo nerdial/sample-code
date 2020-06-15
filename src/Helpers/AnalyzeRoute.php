@@ -4,14 +4,19 @@ namespace Helpers;
 
 use Exception;
 
+/**
+ * Class AnalyzeRoute
+ * @package Helpers
+ */
 class AnalyzeRoute
 {
+    /**
+     * @param array $tickets
+     * @throws Exception
+     */
     public function sort(array $tickets)
     {
         $startPoint = $this->locateStartPoint($tickets);
-
-        
-       
         $firstRoute = $tickets[$startPoint];
         unset($tickets[$startPoint]);
 
@@ -20,19 +25,31 @@ class AnalyzeRoute
         $this->sortByStartPoint($firstRoute, $remainingTickets);
     }
 
+    /**
+     * @param array $firstRoute
+     * @param array $otherTickets
+     */
     protected function sortByStartPoint(array $firstRoute, array $otherTickets)
     {
         $sortedArray = [];
-        //$sortedArray = $firstRoute;
+        $firstRouteDeparture = $firstRoute['Departure'];
 
-        
-
+        // if  Arrival of next item is equal to === departure of first route
+        for($i = 0; $i < count($otherTickets); $i++){
+            $nextArrival = $otherTickets[$i];
+        }
      }
 
+
+    /**
+     * @param array $tickets
+     * @return int
+     * @throws Exception
+     */
     protected function locateStartPoint(array $tickets)
     {
         // For safety we str to lower all strings 
-        // So we can make sure everthing works smoothly
+        // So we can make sure everything works smoothly
 
         for ($i = 0; $i < count($tickets); $i++) {
             $firstDeparture = true;
@@ -53,7 +70,7 @@ class AnalyzeRoute
             if ($firstDeparture) return $i;
         }
             throw new Exception('There is no starting point defined in your array
-            , plase make sure at least you have one starting point');
+            , please make sure at least you have one starting point');
         
     }
 }

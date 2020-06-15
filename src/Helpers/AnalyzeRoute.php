@@ -22,23 +22,39 @@ class AnalyzeRoute
 
         // Reindex the array so we don't have to iterate over starting point
         $remainingTickets = array_values($tickets);
-        $this->sortByStartPoint($firstRoute, $remainingTickets);
+        return $this->sortByStartPoint($firstRoute, $remainingTickets);
     }
 
     /**
      * @param array $firstRoute
      * @param array $otherTickets
      */
-    protected function sortByStartPoint(array $firstRoute, array $otherTickets)
+    protected function sortByStartPoint(array $firstRoute, array $otherTickets): array
     {
         $sortedArray = [];
-        $firstRouteDeparture = $firstRoute['Departure'];
+        $sortedArray[][] = $firstRoute;
+        $currentDeparture = $firstRoute['Arrival'];
+        while (count($otherTickets)) {
+            $destinationIndex = $this->findNextItem($currentDeparture, $otherTickets);
+            $sortedArray[] = $otherTickets[$destinationIndex];
 
-        // if  Arrival of next item is equal to === departure of first route
-        for($i = 0; $i < count($otherTickets); $i++){
-            $nextArrival = $otherTickets[$i];
+            $currentDeparture = $otherTickets[$destinationIndex]['Arrival'];
+            unset($otherTickets[$destinationIndex]);
+            continue;
         }
-     }
+        return $sortedArray;
+    }
+
+    protected function findNextItem($currentDestination, $remainingTickets)
+    {
+        $currentDestination = strtolower($currentDestination);
+        foreach ($remainingTickets as $i => $item) {
+            $nextDeparture = strtolower($item['Departure']);
+            if ($nextDeparture === $currentDestination) {
+                return $i;
+            }
+        }
+    }
 
 
     /**
@@ -69,8 +85,7 @@ class AnalyzeRoute
             }
             if ($firstDeparture) return $i;
         }
-            throw new Exception('There is no starting point defined in your array
+        throw new Exception('There is no starting point defined in your array
             , please make sure at least you have one starting point');
-        
     }
 }

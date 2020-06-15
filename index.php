@@ -6,23 +6,23 @@ include_once 'src/Helpers/AnalyzeRoute.php';
 
 $routes = [
     array(
-        "Departure" => "Stockholm",
-        "Arrival" => "New York",
+        "Departure" => "Esfehan",//2
+        "Arrival" => "Shiraz",
         "Transportation" => "Plane",
         "TransportationNumber" => "SK22",
         "Seat" => "7B",
         "Gate" => "22"
     ),
     array(
-        "Departure" => "Madrid",
-        "Arrival" => "Barcelona",
+        "Departure" => "Hamedan", // 4
+        "Arrival" => "Mashhad",
         "Transportation" => "Train",
         "TransportationNumber" => "78A",
         "Seat" => "45B"
     ),
     array(
-        "Departure" => "Gerona Airport",
-        "Arrival" => "Stockholm",
+        "Departure" => "Tehran",//1
+        "Arrival" => "Esfehan",
         "Transportation" => "Plane",
         "TransportationNumber" => "SK455",
         "Seat" => "3A",
@@ -30,11 +30,21 @@ $routes = [
         "Baggage" => "334"
     ),
     array(
-        "Departure" => "Barcelona",
-        "Arrival" => "Madrid",
+        "Departure" => "Mashhad",//5
+        "Arrival" => "Hormozgan",
+        "Transportation" => "Plane",
+        "TransportationNumber" => "SK456",
+        "Seat" => "3A",
+        "Gate" => "45B",
+        "Baggage" => "334"
+    ),
+    array(
+        "Departure" => "Shiraz", // 3
+        "Arrival" => "Hamedan",
         "Transportation" => "Bus"
     ),
 ];
 
 $analyzer = new \Helpers\AnalyzeRoute();
-$analyzer->sort($routes);
+$sortedRoutes = $analyzer->sort($routes);
+

@@ -1,10 +1,13 @@
 <?php
+require __DIR__ . '/vendor/autoload.php';
 
-//require __DIR__ . '/vendor/autoload.php';
+use Psr\Http\Message\ServerRequestInterface;
 
-include_once 'src/Helpers/AnalyzeRoute.php';
+$strategy = new League\Route\Strategy\JsonStrategy(new \Laminas\Diactoros\ResponseFactory());
+$router = (new League\Route\Router)->setStrategy($strategy);
+$request = Laminas\Diactoros\ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, $_FILES);
 
-$routes = [
+$tickets = [
     array(
         "Departure" => "Esfehan",//2
         "Arrival" => "Shiraz",
@@ -45,6 +48,18 @@ $routes = [
     ),
 ];
 
-$analyzer = new \Helpers\AnalyzeRoute();
-$sortedRoutes = $analyzer->sort($routes);
+
+// map a route
+$router->map('GET', '/sort', function (ServerRequestInterface $request) use ($tickets) : array {
+
+    $analyzer = new \App\Services\AnalyzeRoute();
+    return $analyzer->sort($tickets);
+
+});
+
+$response = $router->dispatch($request);
+
+// send the response to the browser
+(new Laminas\HttpHandlerRunner\Emitter\SapiEmitter)->emit($response);
+
 
